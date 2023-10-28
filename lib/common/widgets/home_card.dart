@@ -11,6 +11,7 @@ class HomeCard extends StatelessWidget {
 
     return InkWell(
       onTap: (() {
+        
         Navigator.pushNamed(context, '/home_card');
       }),
       child: Column(
