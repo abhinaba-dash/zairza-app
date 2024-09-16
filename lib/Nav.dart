@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zairza_app/constants/global_variables.dart';
@@ -48,7 +50,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
     return Scaffold(
         body: _widgetOptions[_selectedIndex],
         bottomNavigationBar: Container(
-          height: height * 0.10085836909,
+          height: height * 0.12985836909,
           decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: Colors.black, width: 4))),
           child: BottomNavigationBar(

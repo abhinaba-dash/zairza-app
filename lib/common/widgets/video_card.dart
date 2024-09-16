@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/youtube_thumbnail.dart';
+import 'package:youtube/youtube.dart';
 import 'package:zairza_app/constants/global_variables.dart';
 
 class VideoCard extends StatelessWidget {
-  const VideoCard({super.key});
+  final String url;
+  const VideoCard({super.key, required this.url});
+
+  Future<String?> _fetchThumbnail() async {
+    await Youtube.config(videoId: url);
+    var thumbnails = Youtube.thumbnails;
+    return thumbnails.hq; // Return the HQ thumbnail URL
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class VideoCard extends StatelessWidget {
                   decoration: const BoxDecoration(
                       border: BorderDirectional(bottom: BorderSide(width: 2))),
                   child: Image.network(
-                    YoutubeThumbnail(youtubeId: 'X8ipUgXH6jw').hq(),
+                    _fetchThumbnail().toString(),
                     fit: BoxFit.fitWidth,
                   )),
             ),

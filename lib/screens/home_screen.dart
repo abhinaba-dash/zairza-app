@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zairza_app/common/widgets/carousel.dart';
 import 'package:zairza_app/common/widgets/custom_icon_button.dart';
 import 'package:zairza_app/common/widgets/home_card.dart';
-import 'package:zairza_app/common/widgets/project_card.dart';
 import 'package:zairza_app/constants/global_variables.dart';
+import 'package:zairza_app/screens/projects/project_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -96,8 +96,7 @@ class HomeScreen extends StatelessWidget {
                       const Spacer(),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/project');
+                          Navigator.pushReplacementNamed(context, '/project');
                         },
                         child: Text("See all",
                             style: GlobalVariables.textMedium_14.copyWith(
@@ -112,26 +111,13 @@ class HomeScreen extends StatelessWidget {
                   height: height * 0.0135419847328244,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      left: width * 0.05581395348,
-                      right: width * 0.05581395348,
-                      bottom: height * 0.02145922746),
-                  child: const ProjectCard(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: width * 0.05581395348,
-                      right: width * 0.05581395348,
-                      bottom: height * 0.02145922746),
-                  child: const ProjectCard(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: width * 0.05581395348,
-                      right: width * 0.05581395348,
-                      bottom: height * 0.02145922746),
-                  child: const ProjectCard(),
-                )
+                    padding: EdgeInsets.only(
+                        left: width * 0.05581395348,
+                        right: width * 0.05581395348,
+                        bottom: height * 0.02145922746),
+                    child: const ProjectsList(
+                      maxProjectsToShow: 3,
+                    ))
               ],
             ),
           ),

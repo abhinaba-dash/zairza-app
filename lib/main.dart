@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         '/home_card': (context) => const CardDetails(),
         '/roadmaps': (context) => const SeeMoreRoadMaps(),
         '/blogs': (context) => const SeeMoreBlogs(),
-        '/session_presentation': (context) => const SeeMoreSessionPresentation(),
+        '/session_presentation': (context) =>
+            const SeeMoreSessionPresentation(),
         '/inventory': (context) => const Inventory(),
         '/project': (context) => const NavigationBarPage(givenIndex: 2)
       },

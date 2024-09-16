@@ -3,7 +3,16 @@ import 'package:zairza_app/common/widgets/tags.dart';
 import 'package:zairza_app/constants/global_variables.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({super.key});
+  final String title;
+  final String date;
+  final String wing;
+  final String state;
+  const ProjectCard(
+      {super.key,
+      required this.title,
+      required this.date,
+      required this.wing,
+      required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +37,23 @@ class ProjectCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Line follower robot Line follower robot',
+                      Text(
+                        title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GlobalVariables.textMedium_16,
                       ),
-                      Text('( Ongoing )',
+                      Text('( $state)',
                           style: GlobalVariables.textMedium_16
                               .copyWith(color: GlobalVariables.primaryColor)),
                       SizedBox(height: height * 0.00858369098),
-                      const Row(
+                      Row(
                         children: [
-                          Tags(tagName: 'hardware'),
-                          SizedBox(width: 4),
-                          Tags(tagName: 'arduino'),
-                          SizedBox(width: 4),
-                          Tags(tagName: '...')
+                          Tags(tagName: wing),
+                          const SizedBox(width: 4),
+                          const Tags(tagName: 'arduino'),
+                          const SizedBox(width: 4),
+                          const Tags(tagName: '...')
                         ],
                       )
                     ],
@@ -79,12 +88,12 @@ class ProjectCard extends StatelessWidget {
                 horizontal: 16,
                 vertical: 8,
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("20th Feb 2023", style: GlobalVariables.textBold_14),
+                  Text(date, style: GlobalVariables.textBold_14),
                 ],
               ),
             ),

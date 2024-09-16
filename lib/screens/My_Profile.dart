@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zairza_app/common/widgets/custom_icon_button.dart';
 import 'package:zairza_app/common/widgets/project_card.dart';
 import 'package:zairza_app/constants/global_variables.dart';
+import 'package:zairza_app/screens/Profile/get_profile.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -15,247 +16,276 @@ class _MyProfileState extends State<MyProfile> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-          toolbarHeight: height * 0.09451,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.01860465116),
-            child: Row(
-              children: [
-                Text('My Profile',
-                    style: GlobalVariables.textBold_24
-                        .copyWith(color: Colors.black)),
-                const Spacer(),
-                const CustomIconButton(),
-              ],
-            ),
-          )),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.05581395348),
-          child: Column(
-            children: [
-              Container(
-                width: width * 0.88837209302,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: GlobalVariables.shadowEffect,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 2)),
+    return FutureBuilder(
+        future: ProfileApiService().retrieveProfile(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No Profile found.'));
+          } else {
+            Map<String, dynamic> _profile = snapshot.data!;
+            return Scaffold(
+              appBar: AppBar(
+                  toolbarHeight: height * 0.09451,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  title: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: width * 0.01860465116),
+                    child: Row(
+                      children: [
+                        Text('My Profile',
+                            style: GlobalVariables.textBold_24
+                                .copyWith(color: Colors.black)),
+                        const Spacer(),
+                        const CustomIconButton(),
+                      ],
+                    ),
+                  )),
+              body: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.03720930232,
-                      vertical: width * 0.03720930232),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: width * 0.05581395348),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: height * 0.06866952789,
-                            width: height * 0.06866952789,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(4),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black, offset: Offset(1, 1)),
-                                  BoxShadow(
-                                      color: Colors.black, offset: Offset(2, 2))
-                                ],
-                                border: Border.all(width: 2)),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(2),
-                                child: Image.asset(
-                                    'assets/images/profile/profilePhoto/Profile1.png')),
-                          ),
-                          SizedBox(width: width * 0.05581395348),
-                          Column(
+                      Container(
+                        width: width * 0.88837209302,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: GlobalVariables.shadowEffect,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(width: 2)),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03720930232,
+                              vertical: width * 0.03720930232),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Abhinaba Dash',
-                                style: GlobalVariables.textBold_20,
+                              Row(
+                                children: [
+                                  Container(
+                                    height: height * 0.06866952789,
+                                    width: height * 0.06866952789,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(1, 1)),
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(2, 2))
+                                        ],
+                                        border: Border.all(width: 2)),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(2),
+                                        child: Image.asset(
+                                            'assets/images/profile/profilePhoto/Profile1.png')),
+                                  ),
+                                  SizedBox(width: width * 0.05581395348),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _profile['name'],
+                                        style: GlobalVariables.textBold_20,
+                                      ),
+                                      Text(
+                                        '${_profile['branch']} + 2021-25 + ${_profile['batch']} Year',
+                                        style: GlobalVariables.textBold_12
+                                            .copyWith(
+                                                color: GlobalVariables
+                                                    .primaryColor),
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.00429184549,
+                                      ),
+                                      Text(
+                                        _profile['zairza_id'],
+                                        style: GlobalVariables.textRegular_12
+                                            .copyWith(height: 1.2),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.01287553648,
                               ),
                               Text(
-                                'IT + 2021-25 + 2nd Year',
-                                style: GlobalVariables.textBold_12.copyWith(
+                                'Domain -',
+                                style: GlobalVariables.textBold_16.copyWith(
+                                    color: GlobalVariables.primaryColor),
+                              ),
+                              Text((_profile['skills'] as List).join(' | '),
+                                  style: GlobalVariables.textRegular_14),
+                              SizedBox(
+                                height: height * 0.01287553648,
+                              ),
+                              Text(
+                                'Join me on-',
+                                style: GlobalVariables.textBold_16.copyWith(
                                     color: GlobalVariables.primaryColor),
                               ),
                               SizedBox(
                                 height: height * 0.00429184549,
                               ),
-                              Text(
-                                'ZEN69420H3H3',
-                                style: GlobalVariables.textRegular_12
-                                    .copyWith(height: 1.2),
-                              )
+                              Row(
+                                children: [
+                                  Image.asset(
+                                      'assets/images/profile/joinMeOn/mail.png',
+                                      width: width * 0.09302325581),
+                                  SizedBox(width: width * 0.03720930232),
+                                  Image.asset(
+                                      'assets/images/profile/joinMeOn/linkedin.png',
+                                      width: width * 0.09302325581),
+                                  SizedBox(width: width * 0.03720930232),
+                                  Image.asset(
+                                      'assets/images/profile/joinMeOn/behance.png',
+                                      width: width * 0.09302325581),
+                                  SizedBox(width: width * 0.03720930232),
+                                  Image.asset(
+                                      'assets/images/profile/joinMeOn/github.png',
+                                      width: width * 0.09302325581)
+                                ],
+                              ),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02575107296),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: GlobalVariables.shadowEffect,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(width: 2)),
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03720930232,
+                              vertical: height * 0.00858369098),
+                          iconColor: GlobalVariables.primaryColor,
+                          textColor: GlobalVariables.primaryColor,
+                          // trailing: Container(
+                          //     height: 40,
+                          //     width: 40,
+                          //     decoration: BoxDecoration(
+                          //         // color: const Color(0xffFF90E8),
+                          //         border: Border.all(color: Colors.black, width: 2),
+                          //         borderRadius: BorderRadius.circular(4)),
+                          //     child: const Icon(
+                          //       Icons.arrow_drop_down,
+                          //       color: Colors.black,
+                          //       size: 30,
+                          //     )),
+                          collapsedIconColor: Colors.black,
+                          title: const Text(
+                            'Achievements',
+                            style: GlobalVariables.textBold_20,
+                          ),
+                          backgroundColor: Colors.white,
+                          shape: ContinuousRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: const BorderSide(width: 0)),
+                          expandedAlignment: Alignment.topLeft,
+                          childrenPadding: EdgeInsets.only(
+                              left: width * 0.03720930232,
+                              right: width * 0.03720930232,
+                              bottom: height * 0.02145922746),
+                          children: const [
+                            Text('- data'),
+                            Text('- data'),
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        height: height * 0.01287553648,
+                        height: height * 0.02575107296,
                       ),
-                      Text(
-                        'Domain -',
-                        style: GlobalVariables.textBold_16
-                            .copyWith(color: GlobalVariables.primaryColor),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: GlobalVariables.shadowEffect,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(width: 2)),
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03720930232,
+                              vertical: height * 0.00858369098),
+                          iconColor: GlobalVariables.primaryColor,
+                          textColor: GlobalVariables.primaryColor,
+                          // trailing: Container(
+                          //     height: 40,
+                          //     width: 40,
+                          //     decoration: BoxDecoration(
+                          //         // color: const Color(0xffFF90E8),
+                          //         border: Border.all(color: Colors.black, width: 2),
+                          //         borderRadius: BorderRadius.circular(4)),
+                          //     child: const Icon(
+                          //       Icons.arrow_drop_down,
+                          //       color: Colors.black,
+                          //       size: 30,
+                          //     )),
+                          collapsedIconColor: Colors.black,
+                          title: const Text(
+                            'Jobs / Internships',
+                            style: GlobalVariables.textBold_20,
+                          ),
+                          backgroundColor: Colors.white,
+                          shape: ContinuousRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: const BorderSide(width: 0)),
+                          expandedAlignment: Alignment.topLeft,
+                          childrenPadding: EdgeInsets.only(
+                              left: width * 0.03720930232,
+                              right: width * 0.03720930232,
+                              bottom: height * 0.02145922746),
+                          children: const [
+                            Text('- data'),
+                            Text('- data'),
+                          ],
+                        ),
                       ),
-                      const Text('Flutter | Graphic design | Video editing',
-                          style: GlobalVariables.textRegular_14),
                       SizedBox(
-                        height: height * 0.01287553648,
-                      ),
-                      Text(
-                        'Join me on-',
-                        style: GlobalVariables.textBold_16
-                            .copyWith(color: GlobalVariables.primaryColor),
-                      ),
-                      SizedBox(
-                        height: height * 0.00429184549,
+                        height: height * 0.02575107296,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/profile/joinMeOn/mail.png',
-                              width: width * 0.09302325581),
-                          SizedBox(width: width * 0.03720930232),
-                          Image.asset(
-                              'assets/images/profile/joinMeOn/linkedin.png',
-                              width: width * 0.09302325581),
-                          SizedBox(width: width * 0.03720930232),
-                          Image.asset(
-                              'assets/images/profile/joinMeOn/behance.png',
-                              width: width * 0.09302325581),
-                          SizedBox(width: width * 0.03720930232),
-                          Image.asset('assets/images/profile/joinMeOn/github.png',
-                              width: width * 0.09302325581)
+                          const Text('My Projects',
+                              style: GlobalVariables.textBold_20),
+                          Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                                boxShadow: GlobalVariables.shadowEffect,
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                              ),
+                              child: const Icon(Icons.add_box_outlined)),
                         ],
                       ),
+                      SizedBox(height: height * 0.02575107296),
+                      const ProjectCard(
+                        title: "Hello",
+                        date: '28th May,2024',
+                        wing: 'Software',
+                        state: 'Ongoing',
+                      )
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: height * 0.02575107296),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: GlobalVariables.shadowEffect,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 2)),
-                child: ExpansionTile(
-                  tilePadding: EdgeInsets.symmetric(
-                      horizontal: width * 0.03720930232,
-                      vertical: height * 0.00858369098),
-                  iconColor: GlobalVariables.primaryColor,
-                  textColor: GlobalVariables.primaryColor,
-                  // trailing: Container(
-                  //     height: 40,
-                  //     width: 40,
-                  //     decoration: BoxDecoration(
-                  //         // color: const Color(0xffFF90E8),
-                  //         border: Border.all(color: Colors.black, width: 2),
-                  //         borderRadius: BorderRadius.circular(4)),
-                  //     child: const Icon(
-                  //       Icons.arrow_drop_down,
-                  //       color: Colors.black,
-                  //       size: 30,
-                  //     )),
-                  collapsedIconColor: Colors.black,
-                  title: const Text(
-                    'Achievements',
-                    style: GlobalVariables.textBold_20,
-                  ),
-                  backgroundColor: Colors.white,
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(width: 0)),
-                  expandedAlignment: Alignment.topLeft,
-                  childrenPadding: EdgeInsets.only(
-                      left: width * 0.03720930232,
-                      right: width * 0.03720930232,
-                      bottom: height * 0.02145922746),
-                  children: const [
-                    Text('- data'),
-                    Text('- data'),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: height * 0.02575107296,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: GlobalVariables.shadowEffect,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 2)),
-                child: ExpansionTile(
-                  tilePadding: EdgeInsets.symmetric(
-                      horizontal: width * 0.03720930232,
-                      vertical: height * 0.00858369098),
-                  iconColor: GlobalVariables.primaryColor,
-                  textColor: GlobalVariables.primaryColor,
-                  // trailing: Container(
-                  //     height: 40,
-                  //     width: 40,
-                  //     decoration: BoxDecoration(
-                  //         // color: const Color(0xffFF90E8),
-                  //         border: Border.all(color: Colors.black, width: 2),
-                  //         borderRadius: BorderRadius.circular(4)),
-                  //     child: const Icon(
-                  //       Icons.arrow_drop_down,
-                  //       color: Colors.black,
-                  //       size: 30,
-                  //     )),
-                  collapsedIconColor: Colors.black,
-                  title: const Text(
-                    'Jobs / Internships',
-                    style: GlobalVariables.textBold_20,
-                  ),
-                  backgroundColor: Colors.white,
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(width: 0)),
-                  expandedAlignment: Alignment.topLeft,
-                  childrenPadding: EdgeInsets.only(
-                      left: width * 0.03720930232,
-                      right: width * 0.03720930232,
-                      bottom: height * 0.02145922746),
-                  children: const [
-                    Text('- data'),
-                    Text('- data'),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: height * 0.02575107296,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('My Projects', style: GlobalVariables.textBold_20),
-                  Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                        boxShadow: GlobalVariables.shadowEffect,
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: const Icon(Icons.add_box_outlined)),
-                ],
-              ),
-              SizedBox(height: height * 0.02575107296),
-              const ProjectCard()
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        });
   }
 }
