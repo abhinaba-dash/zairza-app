@@ -17,17 +17,17 @@ class CompletedProjects extends StatelessWidget {
               vertical: width * 0.05581395348),
           child: Column(children: [
             SearchBar(
-              shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
+              shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               )),
-              side: const MaterialStatePropertyAll(BorderSide(width: 2)),
+              side: const WidgetStatePropertyAll(BorderSide(width: 2)),
               hintStyle:
-                  const MaterialStatePropertyAll(GlobalVariables.textMedium_14),
+                  const WidgetStatePropertyAll(GlobalVariables.textMedium_14),
               hintText: "Search from completed projects",
               leading: const Icon(Icons.search),
-              padding: MaterialStatePropertyAll(
+              padding: WidgetStatePropertyAll(
                   EdgeInsets.symmetric(horizontal: width * 0.01860465116 * 2)),
-              elevation: const MaterialStatePropertyAll(0),
+              elevation: const WidgetStatePropertyAll(0),
             ),
             const ProjectsList(
               state: 'Completed',

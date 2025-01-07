@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zairza_app/common/widgets/custom_button.dart';
-
 import '../common/widgets/custom_textfield.dart';
 
 class SignIn extends StatelessWidget {
