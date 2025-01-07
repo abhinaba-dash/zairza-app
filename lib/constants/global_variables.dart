@@ -8,7 +8,9 @@ class Keys {
 }
 
 class GlobalVariables {
-  
+  //base URL
+  static const baseUrl = "https://zairza-app-backend.onrender.com";
+
   //shadow effect
   static const shadowEffect = [
     BoxShadow(color: Colors.black, offset: Offset(1, 1)),

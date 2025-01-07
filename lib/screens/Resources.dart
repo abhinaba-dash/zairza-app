@@ -234,7 +234,7 @@ class ResourcesPage extends StatelessWidget {
               ],
             ),
           ),
-          const VideoCard(),
+          const VideoCard(url: 'https://www.youtube.com/results?search_query=flutter+getx',),
         ]),
       ),
     );
